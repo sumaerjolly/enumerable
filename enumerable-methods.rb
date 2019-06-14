@@ -1,9 +1,19 @@
 module Enumerable
     def my_each
-      for i in 0...self.length
-        yield(self[i])
-      end  
-    end
+        if self.is_a? Array  
+            for i in 0...self.length
+            yield self [i]
+            end
+        elsif self.is_a? Hash 
+            for key in self.keys 
+                yield key, self[key]
+            end
+        else
+            return false
+        end
+        self 
+    end 
+
 
     def my_each_with_index
         for i in 0...self.length
@@ -12,13 +22,25 @@ module Enumerable
     end
 
     def my_select
-        new_array = []
-        self.my_each { |n|
-            if yield(n)
-                new_array.push(n)
-            end
-        }
-        return new_array
+        if self.is_a? Array  
+            new_array = []
+            self.my_each { |n|
+                if yield(n)
+                    new_array.push(n)
+                end
+            }
+            return new_array
+        elsif self.is_a? Hash
+            new_hash = {}
+            self.my_each{ |key,value|
+                if yield(key,value)
+                    new_hash[key] = value
+                end
+            }
+            return new_hash
+        else
+            return false
+        end
     end
 
     def my_all?
@@ -75,17 +97,36 @@ module Enumerable
         new_array
     end
 
-    def my_inject 
-        total = 1
-        self.my_each{ |n|
-            total = yield(total,n)
-        }
-        total
+    def my_inject
+        first_item = self[0]
+        self.shift
+        self.my_each do |x|
+          next if x == 0
+          first_item = yield(first_item, x)
+   
+        end
+        first_item
     end
 
 end
 
+# hash = {
+#     key: 100,
+#     key2: 200,
+#     key3: 300
+# }
 
+# hash.select{|k,v| k > key: }
+
+# array = [2,3,4,5]
+
+# array.each_index{ |index|
+#     print index 
+
+# }
+
+# h = { "a" => 100, "b" => 200, "c" => 300 }
+# puts h.select {|k,v| k > "a"}
 # TESTING STARTS HERE
 
 # array = [52,21,314,555,1232,212,212,21,232,13]
@@ -94,7 +135,7 @@ end
 #     puts index 
 # }
 
-# p [1,2,3,4,5].my_select { |num|  num.even? }
+p [1,2,3,4,5].my_select { |num|  num.even? }
 
 # p ["cat","bat","sst"].all? { |x|
 #     x.length == 3
