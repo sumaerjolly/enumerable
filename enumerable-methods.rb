@@ -81,20 +81,15 @@ module Enumerable
         count
     end
 
-    def my_map(proc=nil)
+    def my_map
         new_array = []
+        self.my_each { |n|
+            if yield(n)
+                new_array.push(n)
+            end
+        }
+        return new_array
 
-        if proc
-            self.my_each{|n|
-                new_array.push(proc.call(n))
-            }
-        elsif proc.nil? && block_given?
-            self.my_each{ |n|
-                new_array.push(yield(n))
-            }
-        end
-
-        new_array
     end
 
     def my_inject
@@ -109,7 +104,8 @@ module Enumerable
     end
 
 end
-
+a=[1,2,3]
+p a.my_map{|n|  n > 1}
 # hash = {
 #     key: 100,
 #     key2: 200,
@@ -135,7 +131,7 @@ end
 #     puts index 
 # }
 
-p [1,2,3,4,5].my_select { |num|  num.even? }
+#p [1,2,3,4,5].my_select { |num|  num.even? }
 
 # p ["cat","bat","sst"].all? { |x|
 #     x.length == 3
@@ -165,13 +161,13 @@ p [1,2,3,4,5].my_select { |num|  num.even? }
 # p a.map {|x| x + "!" }
 # p a.my_map {|x| x + "!" }
 
-def multiply_els(array)
-    array.my_inject{| total,n|
-        total * n
-    }
-end
+# def multiply_els(array)
+#     array.my_inject{| total,n|
+#         total * n
+#     }
+# end
 
-p multiply_els([2, 4, 5])
+#p multiply_els([2, 4, 5])
 
 # cube = Proc.new{ |x| x**3 }
 # p [4, 5, 6].map(&cube)

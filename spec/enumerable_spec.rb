@@ -36,7 +36,30 @@ RSpec.describe Enumerable do
             expect(hash2.my_select{|key,value| key > "a" }).to eql ({"b" => 200, "c" => 300})
         end
     end
+     
+    describe "#my_all?" do
+        it "returns 'true' on an empty array " do
+            expect([].my_all?).to eql(true)
+        end
+        it "returns 'false' when an 1 element evaluates to 'false' based on the block passed in." do
+            expect(array.my_all? { |n| n > 100}).to eql(false)
+        end
+    end
 
+    describe "#my_any?" do
+        it "returns any element within the array" do
+            expect([].my_any?).to eql(false)
+        end
+        it "returns 'true' any element that passes the block of code" do
+            expect(array.my_any? {|x| x > 0}).to eql(true)
+        end
+    end
 
+    describe "#my_map" do
+        it "it creates a new array base on previous array using the bloc of code" do
+            expect(array.my_map {|x| x >= 2}).to eql([2,3,4])
+        end
+
+    end
 
 end
