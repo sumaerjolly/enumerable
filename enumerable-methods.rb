@@ -104,8 +104,8 @@ module Enumerable
     end
 
 end
-a=[1,2,3]
-p a.my_map{|n|  n > 1}
+# a=[1,2,3]
+# p a.my_map{|n|  n > 1}
 # hash = {
 #     key: 100,
 #     key2: 200,

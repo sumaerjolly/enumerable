@@ -3,6 +3,7 @@ require "./enumerable-methods.rb"
 RSpec.describe Enumerable do
     let(:array) { [1,2,3,4] }
     let(:array1) { ["Ruby", "Javascript", "Python","Javascript"] }
+    let(:array2) { [3,5,7,9] }
     let(:hash) { {a:"Google", b:"Apple", c:"Facebook"} }
     let(:hash2) { { "a" => 100, "b" => 200, "c" => 300 } }
     let(:block) { proc {|x| x} }
@@ -24,6 +25,9 @@ RSpec.describe Enumerable do
     describe "#my_each_with_index" do
         it "passes the index of each element of an array" do
             expect(array.my_each_with_index {|index| index}).to eql(0...4) 
+        end
+        it "passes the index of each element of an array" do
+            expect(array1.my_each_with_index {|index| index}).to eql(0...4) 
         end
     end 
 
@@ -56,8 +60,44 @@ RSpec.describe Enumerable do
     end
 
     describe "#my_map" do
-        it "it creates a new array base on previous array using the bloc of code" do
+        it "it creates a new array base on previous array using the block of code" do
             expect(array.my_map {|x| x >= 2}).to eql([2,3,4])
+        end
+
+        it "it creates a new array base on previous array using the block of code" do
+            expect(array.my_map {|x| x <= 2}).to eql([1,2])
+        end
+
+    end
+
+    describe "#my_inject" do
+        it "Returns all the elements in the array into one element using the block of code" do
+            expect(array.my_inject {|a, b| a + b}).to eql(10)
+        end
+        it "Returns all the elements in the array into one element using the block of code" do
+            expect(array2.my_inject {|a, b| a + b}).to eql(24)
+        end
+
+    end
+
+    describe "#my_none?" do
+        it "Returns true if none of the elements in the array don't pass the block of code" do
+            expect(array.my_none? {|n| n > 5}).to eql(true)
+        end
+        it "Returns true if none of the elements in the array don't pass the block of code" do
+            expect(array1.my_none? {|n| n.length > 5}).to eql(false)
+        end
+    end
+
+    describe "#my_count" do
+        it "returns the total number of elements in an array" do
+            expect(array.my_count).to eql(4)
+        end
+        it "returns the total number of elements in an array" do
+            expect(array1.my_count).to eql(4)
+        end
+        it "returns the total number of elements in an array" do
+            expect(array2.my_count).to eql(4)
         end
 
     end
