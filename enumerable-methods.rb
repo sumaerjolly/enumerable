@@ -187,5 +187,3 @@ p a.my_map{|n|  n > 1}
 
 array = [1,2,3,4]
 p array.my_each_with_index{}
-
-
