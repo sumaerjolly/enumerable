@@ -16,9 +16,21 @@ module Enumerable
 
 
     def my_each_with_index
-        for i in 0...self.length
-            yield(i)
+        index = 0
+        if self.is_a? Array
+            for i in 0...self.length
+               yield self[i], i
+            end
+            
+        elsif self.is_a? Hash
+            for key in self.keys
+                yield [key, self[key]], index
+                index += 1
+            end
+        else
+            return false
         end
+        self
     end
 
     def my_select
@@ -173,5 +185,7 @@ p a.my_map{|n|  n > 1}
 # p [4, 5, 6].map(&cube)
 # p [4, 5, 6].my_map(&cube)
 
+array = [1,2,3,4]
+p array.my_each_with_index{}
 
 
