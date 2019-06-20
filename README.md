@@ -1,4 +1,3 @@
-development
 ##  EUMERABLE METHODS AND TESTING 
 
 
@@ -10,5 +9,4 @@ MICHAEL DAMULAK : https://github.com/em-em-D
 
 SUMAER JOLLY: https://github.com/sumaerjolly
 
-# In this project I recreated some of the methods in the enumerable module 
-master
+
