@@ -1,24 +1,58 @@
 module Enumerable
     def my_each
-      for i in 0...self.length
-        yield(self[i])
-      end  
-    end
+        if self.is_a? Array  
+            for i in 0...self.length
+            yield self [i]
+            end
+        elsif self.is_a? Hash 
+            for key in self.keys 
+                yield key, self[key]
+            end
+        else
+            return false
+        end
+        self 
+    end 
+
 
     def my_each_with_index
-        for i in 0...self.length
-            yield(i)
+        index = 0
+        if self.is_a? Array
+            for i in 0...self.length
+               yield self[i], i
+            end
+            
+        elsif self.is_a? Hash
+            for key in self.keys
+                yield [key, self[key]], index
+                index += 1
+            end
+        else
+            return false
         end
+        self
     end
 
     def my_select
-        new_array = []
-        self.my_each { |n|
-            if yield(n)
-                new_array.push(n)
-            end
-        }
-        return new_array
+        if self.is_a? Array  
+            new_array = []
+            self.my_each { |n|
+                if yield(n)
+                    new_array.push(n)
+                end
+            }
+            return new_array
+        elsif self.is_a? Hash
+            new_hash = {}
+            self.my_each{ |key,value|
+                if yield(key,value)
+                    new_hash[key] = value
+                end
+            }
+            return new_hash
+        else
+            return false
+        end
     end
 
     def my_all?
@@ -59,33 +93,48 @@ module Enumerable
         count
     end
 
-    def my_map(proc=nil)
+    def my_map
         new_array = []
+        self.my_each { |n|
+            if yield(n)
+                new_array.push(n)
+            end
+        }
+        return new_array
 
-        if proc
-            self.my_each{|n|
-                new_array.push(proc.call(n))
-            }
-        elsif proc.nil? && block_given?
-            self.my_each{ |n|
-                new_array.push(yield(n))
-            }
-        end
-
-        new_array
     end
 
-    def my_inject 
-        total = 1
-        self.my_each{ |n|
-            total = yield(total,n)
-        }
-        total
+    def my_inject
+        first_item = self[0]
+        self.shift
+        self.my_each do |x|
+          next if x == 0
+          first_item = yield(first_item, x)
+   
+        end
+        first_item
     end
 
 end
+a=[1,2,3]
+p a.my_map{|n|  n > 1}
+# hash = {
+#     key: 100,
+#     key2: 200,
+#     key3: 300
+# }
 
+# hash.select{|k,v| k > key: }
 
+# array = [2,3,4,5]
+
+# array.each_index{ |index|
+#     print index 
+
+# }
+
+# h = { "a" => 100, "b" => 200, "c" => 300 }
+# puts h.select {|k,v| k > "a"}
 # TESTING STARTS HERE
 
 # array = [52,21,314,555,1232,212,212,21,232,13]
@@ -94,7 +143,7 @@ end
 #     puts index 
 # }
 
-# p [1,2,3,4,5].my_select { |num|  num.even? }
+#p [1,2,3,4,5].my_select { |num|  num.even? }
 
 # p ["cat","bat","sst"].all? { |x|
 #     x.length == 3
@@ -124,17 +173,17 @@ end
 # p a.map {|x| x + "!" }
 # p a.my_map {|x| x + "!" }
 
-def multiply_els(array)
-    array.my_inject{| total,n|
-        total * n
-    }
-end
+# def multiply_els(array)
+#     array.my_inject{| total,n|
+#         total * n
+#     }
+# end
 
-p multiply_els([2, 4, 5])
+#p multiply_els([2, 4, 5])
 
 # cube = Proc.new{ |x| x**3 }
 # p [4, 5, 6].map(&cube)
 # p [4, 5, 6].my_map(&cube)
 
-
-
+# array = [1,2,3,4]
+# p array.my_each_with_index{}
