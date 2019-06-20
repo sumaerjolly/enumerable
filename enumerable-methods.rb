@@ -185,5 +185,5 @@ p a.my_map{|n|  n > 1}
 # p [4, 5, 6].map(&cube)
 # p [4, 5, 6].my_map(&cube)
 
-array = [1,2,3,4]
-p array.my_each_with_index{}
+# array = [1,2,3,4]
+# p array.my_each_with_index{}
