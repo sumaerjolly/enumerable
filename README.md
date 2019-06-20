@@ -1,3 +1,4 @@
+development
 ##  EUMERABLE METHODS AND TESTING 
 
 
@@ -8,3 +9,6 @@ In this method we recreated some of the methods in the enumerable model. After c
 MICHAEL DAMULAK : https://github.com/em-em-D
 
 SUMAER JOLLY: https://github.com/sumaerjolly
+
+# In this project I recreated some of the methods in the enumerable module 
+master
